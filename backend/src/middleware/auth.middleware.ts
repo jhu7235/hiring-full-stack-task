@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { PrismaClient } from '@prisma/client';
-
+// NOTIFICATIONS_REVIEW why not use the prisma client from $prisma/client? now we have 2 prisma clients in the backend
 const prisma = new PrismaClient();
 
 /**
@@ -22,6 +22,7 @@ const prisma = new PrismaClient();
  */
 export const authMiddleware = async (req: Request, res: Response, next: NextFunction) => {
   try {
+    // NOTIFICATIONS_REVIEW: security risk, should we use a JWT token instead or some other mechanism if idenifying that the FE is authenticated? I usually see cookies or a JWT token in the headers and userId being parsed out and the token is signed by a trusted source HIGH
     const userId = req.headers['x-auth-user-id'] as string;
 
     if (!userId) {

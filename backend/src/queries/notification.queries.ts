@@ -24,6 +24,7 @@ export class NotificationQueries {
   }
 
   async getUnreadCountForUsers(userIds: string) {
+    // NOTIFICATIONS_REVIEW this incomplete
     // TODO: Return count of unread notifications for the given userIds as a map
   }
 }
