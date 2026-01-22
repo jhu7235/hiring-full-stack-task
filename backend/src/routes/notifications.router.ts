@@ -9,5 +9,6 @@ router.get('/', controller.getForUser);
 router.get('/unread-count', controller.getUnreadCount);
 // NOTIFICATIONS_REVIEW this is unused by the frontend, do we need it?
 router.post('/', controller.create);
+router.post('/mark-read/:id', controller.markAsRead);
 
 export default router;

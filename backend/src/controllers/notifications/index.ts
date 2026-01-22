@@ -1,15 +1,18 @@
 import { Request, Response, NextFunction } from 'express';
 import { prisma } from '$prisma/client';
 import { NotificationQueries } from '$queries/notification.queries';
+import { NotificationService } from '$root/src/services/notification.service';
 
 // NOTIFICATIONS_REVIEW: This deprecation note is not right it should be to do since NotificationsController is not deprecated - the query layer is MEDIUM
 // DEPRECATED - use services in controllers instead of
 // direct/inline code executions of e.g. prisma calls
 export class NotificationsController {
   private notificationQueries: NotificationQueries;
+  private notificationService: NotificationService;
 
   constructor() {
     this.notificationQueries = new NotificationQueries();
+    this.notificationService = new NotificationService();
   }
 
   /**
@@ -59,6 +62,19 @@ export class NotificationsController {
         },
       });
       res.json({ count });
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  /**
+   * POST /api/notifications/mark-read
+   * Mark a notification as read
+   */
+  async markAsReadById(req: Request, res: Response, next: NextFunction): Promise<void> {
+    try {
+      const notification = await this.notificationService.markAsRead(req.params.id);
+      res.json(notification);
     } catch (error) {
       next(error);
     }
